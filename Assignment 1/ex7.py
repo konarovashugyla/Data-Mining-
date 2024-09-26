@@ -10,7 +10,7 @@ import pandas as pd
 df = pd.read_csv('/mnt/data/Heart_Disease_Prediction.csv')
 
 # Step 1: Separate Features and Target
-# Replace 'random_target' with your actual target column if necessary
+
 X = df.drop(columns=['random_target'])  # Features
 y = df['random_target']  # Target
 
