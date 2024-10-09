@@ -1,0 +1,27 @@
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.feature_selection import RFE
+from sklearn.metrics import accuracy_score
+
+# Загрузка набора данных Breast Cancer
+breast_cancer = load_breast_cancer()
+
+# Разделение на обучающие и тестовые данные
+X_train, X_test, y_train, y_test = train_test_split(breast_cancer.data, breast_cancer.target, test_size=0.3, random_state=42)
+
+# Применение RFE с SVM
+svc = SVC(kernel="linear")
+rfe = RFE(estimator=svc, n_features_to_select=5)
+rfe.fit(X_train, y_train)
+
+# Обучение модели на выбранных признаках
+X_train_rfe = rfe.transform(X_train)
+X_test_rfe = rfe.transform(X_test)
+
+svc.fit(X_train_rfe, y_train)
+y_pred = svc.predict(X_test_rfe)
+
+# Оценка производительности модели
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy with selected features:", accuracy)
